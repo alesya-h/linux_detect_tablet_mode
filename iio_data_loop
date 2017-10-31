@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'json'
+require 'pp'
+loop do
+  system 'clr'
+  pp JSON.parse(`./iio_data`)
+  sleep 1
+end

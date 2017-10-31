@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'json'
+
+$data = {}
+
+Dir["/sys/bus/iio/devices/iio:device*"].each do |dev|
+  name = File.read("#{dev}/name").chomp
+  next if %w(dev_rotation magn_3d als).include? name
+  $data[name] ||={}
+  sensor_prefix = dev + '/in_'
+  Dir[sensor_prefix+"*"].each do |sensor|
+    sensor_name = sensor.sub(sensor_prefix, '')
+    $data[name][sensor_name] = File.read(sensor).chomp rescue nil
+  end
+end
+puts $data.to_json
