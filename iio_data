@@ -1,16 +1,52 @@
 #!/usr/bin/env ruby
 require 'json'
 
-$data = {}
-
-Dir["/sys/bus/iio/devices/iio:device*"].each do |dev|
-  name = File.read("#{dev}/name").chomp
-  next if %w(dev_rotation magn_3d als).include? name
-  $data[name] ||={}
-  sensor_prefix = dev + '/in_'
-  Dir[sensor_prefix+"*"].each do |sensor|
-    sensor_name = sensor.sub(sensor_prefix, '')
-    $data[name][sensor_name] = File.read(sensor).chomp rescue nil
-  end
+def magnitude(v)
+  Math.sqrt v.map{|x| x*x}.reduce(:+)
 end
-puts $data.to_json
+
+def vector_product(v1,v2)
+  v1.zip(v2).map{|i1,i2| i1*i2}.reduce(:+)
+end
+
+def vector_angle(v1, v2)
+  Math.acos(vector_product(v1,v2) / (magnitude(v1)*magnitude(v2)))
+end
+
+def scale_vector(v, c)
+  v.map{|i| i*c}
+end
+
+def sign((y1,z1),(y2,z2))
+  val = z1*y2 - y1*z2
+  if val == 0 then 1 else val / val.abs end
+end
+
+def read_in(dev, in_name)
+  File.read("#{dev}/in_#{in_name}")
+end
+
+def read_float_in(dev, property_name, in_name)
+  read_in(dev, "#{property_name}_#{in_name}").to_f
+end
+
+def device(device_id)
+  "/sys/bus/iio/devices/iio:device#{device_id}"
+end
+
+def read_3d_sensor(device_id, property_name)
+  dev = device device_id
+  offset = read_float_in(dev, property_name, "offset")
+  scale  = read_float_in(dev, property_name, "scale")
+  %w(x y z).map{|axis| (read_float_in(dev, property_name, "#{axis}_raw") + offset) * scale}
+end
+
+# rotation_quaternion = read_in(device(4), "rot_quaternion_raw").chomp.split(' ').map(&:to_f)
+
+accel1 = read_3d_sensor(1, "accel")
+accel2 = read_3d_sensor(6, "accel")
+v1 = accel1[1..2]
+v2 = accel2[1..2]
+
+angle = sign(v2,v1) * vector_angle(v2, v1)
+puts angle
