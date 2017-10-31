@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-require 'json'
 
 def magnitude(v)
   Math.sqrt v.map{|x| x*x}.reduce(:+)
@@ -41,12 +40,24 @@ def read_3d_sensor(device_id, property_name)
   %w(x y z).map{|axis| (read_float_in(dev, property_name, "#{axis}_raw") + offset) * scale}
 end
 
-# rotation_quaternion = read_in(device(4), "rot_quaternion_raw").chomp.split(' ').map(&:to_f)
+def read_angle
+  accel1 = read_3d_sensor(1, "accel")
+  accel2 = read_3d_sensor(6, "accel")
+  v1 = accel1[1..2]
+  v2 = accel2[1..2]
+  sign(v2,v1) * vector_angle(v2, v1)
+end
 
-accel1 = read_3d_sensor(1, "accel")
-accel2 = read_3d_sensor(6, "accel")
-v1 = accel1[1..2]
-v2 = accel2[1..2]
+def acceleration
+  magnitude read_3d_sensor(2, "anglvel")
+end
 
-angle = sign(v2,v1) * vector_angle(v2, v1)
-puts angle
+def read_mode
+  if read_angle < -0.5
+    :tablet
+  else
+    :normal
+  end
+end
+
+puts "#{read_mode} #{acceleration}"
