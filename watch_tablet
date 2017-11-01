@@ -10,7 +10,7 @@ end
 
 def config
   load_config! unless @config
-  @config 
+  @config
 end
 
 def detect_accels!

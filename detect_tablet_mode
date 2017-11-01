@@ -60,9 +60,6 @@ def read_mode(display_accel_id, keyboard_accel_id)
   end
 end
 
-# TP X1YogaGen2
-#   1 -> lid
-#   6 -> kb
 if ARGV.count != 2
   puts "Usage: #{File.basename($0)} <display-accelerometer-id> <keyboard-accelerometer-id>"
   puts "Example: #{File.basename($0)} 1 6"
