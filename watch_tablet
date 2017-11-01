@@ -18,6 +18,7 @@ def get_mode
 end
 
 def activate_mode(mode)
+  puts "Switching to #{mode} mode"
   if cmds = config['modes'][mode]
     cmds.each{|cmd| system cmd }
   end
@@ -34,7 +35,6 @@ def run_watcher
     sleep 0.5
   end
 rescue Interrupt
-
 end
 
 run_watcher
