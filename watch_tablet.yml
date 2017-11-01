@@ -1,7 +1,7 @@
 display_accel_id: 1
 keyboard_accel_id: 6
 modes:
-  normal:
+  laptop:
     - xinput enable 9   # touch
     - xinput enable 12  # keyboard
     - xinput enable 13  # touchpad

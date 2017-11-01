@@ -3,7 +3,7 @@
 ## What it does
 
 It uses two accelerometers to detect an angle between the screen and the keyboard,
-decides if that angle corresponds to normal or tablet mode, and if mode have changed,
+decides if that angle corresponds to laptop or tablet mode, and if mode have changed,
 it executes commands for switching into that mode, which are specified in
 a config file. Generally you would put there commands to disable/enable a
 keyboard/touchpad/trackpoint, show/hide an on-screen keyboard, toggle some desktop
@@ -42,7 +42,7 @@ display_accel_id: 1
 keyboard_accel_id: 6
 ```
 
-`modes.normal`, `modes.tablet` - this contain commands that will be executed when mode changes.
+`modes.laptop`, `modes.tablet` - this contain commands that will be executed when mode changes.
 Most likely this will contain `xinput enable` and `xinput disable` commands to enable/disable
 kb/touchpad/trackpoint (just run `xinput` to look them up). You may use any other commands
 to adjust your desktop environment (e.g. hide or show additional panels, increase button size,
@@ -52,7 +52,7 @@ Example:
 
 ```yaml
 modes:
-  normal:
+  laptop:
     - xinput enable 9   # touch
     - xinput enable 12  # keyboard
     - xinput enable 13  # touchpad
