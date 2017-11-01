@@ -40,20 +40,30 @@ def read_3d_sensor(device_id, property_name)
   %w(x y z).map{|axis| (read_float_in(dev, property_name, "#{axis}_raw") + offset) * scale}
 end
 
-def read_angle
-  accel1 = read_3d_sensor(1, "accel")
-  accel2 = read_3d_sensor(6, "accel")
-  v1 = accel1[1..2]
-  v2 = accel2[1..2]
-  sign(v2,v1) * vector_angle(v2, v1)
+def read_angle(display_accel_id, keyboard_accel_id)
+  accel_3d_display  = read_3d_sensor(display_accel_id,  "accel")
+  accel_3d_keyboard = read_3d_sensor(keyboard_accel_id, "accel")
+  accel_2d_display  = accel_3d_display[1..2]
+  accel_2d_keyboard = accel_3d_keyboard[1..2]
+
+  return    sign(accel_2d_keyboard, accel_2d_display) *
+    vector_angle(accel_2d_keyboard, accel_2d_display)
 end
 
-def read_mode
-  if read_angle < -0.5
+def read_mode(display_accel_id, keyboard_accel_id)
+  if read_angle(display_accel_id, keyboard_accel_id) < -0.5
     :tablet
   else
     :normal
   end
 end
 
-puts read_mode
+# TP X1YogaGen2
+#   1 -> lid
+#   6 -> kb
+if ARGV.count != 2
+  puts "Usage: #{File.basename($0)} <display-accelerometer-id> <keyboard-accelerometer-id>"
+  puts "Example: #{File.basename($0)} 1 6"
+else
+  puts read_mode(ARGV[0],ARGV[1])
+end
