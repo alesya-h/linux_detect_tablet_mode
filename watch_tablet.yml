@@ -1,5 +1,3 @@
-display_accel_id: 1
-keyboard_accel_id: 6
 modes:
   laptop:
     - xinput enable 9   # touch

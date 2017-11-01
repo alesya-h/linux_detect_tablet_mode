@@ -28,20 +28,6 @@ If it works on your device, please tell me and I'll add it to the list (or just 
 
 ## Configuration
 
-`display_accel_id`, `keyboard_accel_id` - ids of your iio accelerometer devices. Look
-for `iio:device[id]` folders in `/sys/bus/iio/devices/` directory. Directories for
-accelerometer sensors should have `name` file in them with a text `accel_3d`. For this scripts
-to work you must have at least two of those - one in a screen and one in a base/keyboard.
-Most likely a device with a lower id is a screen accelerometer, and device with higher id is
-a keyboard accelerometer.
-
-Example:
-
-```yaml
-display_accel_id: 1
-keyboard_accel_id: 6
-```
-
 `modes.laptop`, `modes.tablet` - this contain commands that will be executed when mode changes.
 Most likely this will contain `xinput enable` and `xinput disable` commands to enable/disable
 kb/touchpad/trackpoint (just run `xinput` to look them up). You may use any other commands
@@ -62,3 +48,11 @@ modes:
     - xinput disable 13  # touchpad
     - xinput disable 14  # trackpoint
 ```
+
+## Bugs
+
+Because IIO device ids are not stable across reboots, we can't put them in a config, meaning we have
+to detect them. Current autodetection logic is very simplistic and just grabs first 2 accelerometers,
+and arranges them assuming that the laptop is currently in a laptop mode. For proper autodetection
+we need PLD (Physical Location of Device) information to be available in the userspace, but at this
+point patches for that are not in a mainline kernel (https://patchwork.kernel.org/patch/4464341/).

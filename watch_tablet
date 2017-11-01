@@ -13,8 +13,18 @@ def config
   @config 
 end
 
+def detect_accels!
+  prefix='/sys/bus/iio/devices/iio:device'
+  ($display_accel_id, $keyboard_accel_id) = Dir[prefix+'*'].find_all{|x| File.read(x+"/name").chomp == 'accel_3d' }.map{|x| x.sub(prefix,'')}
+  puts "Detected accelerometers: #$display_accel_id, #$keyboard_accel_id"
+  if get_mode == 'tablet'
+    puts "Swapping the order of accelerometers"
+    $display_accel_id, $keyboard_accel_id = $keyboard_accel_id, $display_accel_id
+  end
+end
+
 def get_mode
-  `#{DETECT_TABLET_MODE_SCRIPT_PATH} #{config['display_accel_id']} #{config['keyboard_accel_id']}`.chomp
+  `#{DETECT_TABLET_MODE_SCRIPT_PATH} #$display_accel_id #$keyboard_accel_id`.chomp
 end
 
 def activate_mode(mode)
@@ -25,6 +35,7 @@ def activate_mode(mode)
 end
 
 def run_watcher
+  detect_accels!
   old_mode = nil
   loop do
     new_mode = get_mode
