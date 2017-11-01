@@ -5,15 +5,26 @@
 It uses two accelerometers to detect an angle between the screen and the keyboard,
 decides if that angle corresponds to normal or tablet mode, and if mode have changed,
 it executes commands for switching into that mode, which are specified in
-a config file. Generally you would put there commands to disable/enable a keyboard,
-a touchpad and a trackpoint.
+a config file. Generally you would put there commands to disable/enable a
+keyboard/touchpad/trackpoint, show/hide an on-screen keyboard, toggle some desktop
+environment panels, and the like.
+
+## Supported devices
+
+Supposedly any 2-in-1s that have 2 accelerometers. Tested devices:
+
+- ThinkPad X1 Yoga Gen2 (it was developed for it)
+
+If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).
 
 ## Installation
 
-1. Clone it somewhere and optionally symlink `watch_tablet` into any directory in your $PATH
-2. Copy a config file into `~/.config/watch_tablet.yml`
-3. Adjust the config (see below)
-4. Add `watch_tablet &` to your `~/.xinitrc`
+1. Install ruby (most likely you already have it preinstalled)
+2. Clone it somewhere, and optionally symlink `watch_tablet` into any directory in your $PATH
+3. Copy a config file into `~/.config/watch_tablet.yml`
+4. Adjust the config (see below)
+5. Add `watch_tablet &` to your `~/.xinitrc`
+6. Restart your desktop session and enjoy
 
 ## Configuration
 
