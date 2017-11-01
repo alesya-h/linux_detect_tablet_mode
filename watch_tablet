@@ -30,14 +30,22 @@ def activate_mode(mode)
   end
 end
 
+def in_motion?
+  `#{script('in_motion')}`.chomp.to_f > 0.8
+end
+
 def run_watcher
   detect_accels!
   old_mode = nil
   loop do
     new_mode = get_mode
     if old_mode != new_mode
-      activate_mode(new_mode)
-      old_mode = new_mode
+      if in_motion?
+        puts "not changing mode until motion is over"
+      else
+        activate_mode(new_mode)
+        old_mode = new_mode
+      end
     end
     sleep 0.5
   end
