@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 require 'yaml'
 
-scripts_dir = File.dirname File.realpath $0
-DETECT_TABLET_MODE_SCRIPT_PATH="#{scripts_dir}/detect_tablet_mode"
+def script(name)
+  scripts_dir = File.dirname File.realpath $0
+  "#{scripts_dir}/#{name}"
+end
 
 def load_config!
   @config = YAML.load(File.read("#{ENV['HOME']}/.config/watch_tablet.yml"))
@@ -14,17 +16,11 @@ def config
 end
 
 def detect_accels!
-  prefix='/sys/bus/iio/devices/iio:device'
-  ($display_accel_id, $keyboard_accel_id) = Dir[prefix+'*'].find_all{|x| File.read(x+"/name").chomp == 'accel_3d' }.map{|x| x.sub(prefix,'')}
-  puts "Detected accelerometers: #$display_accel_id, #$keyboard_accel_id"
-  if get_mode == 'tablet'
-    puts "Swapping the order of accelerometers"
-    $display_accel_id, $keyboard_accel_id = $keyboard_accel_id, $display_accel_id
-  end
+  $accels = `#{script('detect_accelerometers')}`.chomp
 end
 
 def get_mode
-  `#{DETECT_TABLET_MODE_SCRIPT_PATH} #$display_accel_id #$keyboard_accel_id`.chomp
+  `#{script('detect_tablet_mode')} #$accels`.chomp
 end
 
 def activate_mode(mode)

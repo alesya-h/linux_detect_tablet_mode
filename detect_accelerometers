@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+scripts_dir = File.dirname File.realpath $0
+DETECT_TABLET_MODE_SCRIPT_PATH="#{scripts_dir}/detect_tablet_mode"
+
+def get_mode
+  `#{DETECT_TABLET_MODE_SCRIPT_PATH} #$display_accel_id #$keyboard_accel_id`.chomp
+end
+
+def detect_accels!
+  prefix='/sys/bus/iio/devices/iio:device'
+  ($display_accel_id, $keyboard_accel_id) = Dir[prefix+'*'].find_all{|x| File.read(x+"/name").chomp == 'accel_3d' }.map{|x| x.sub(prefix,'')}
+  if get_mode == 'tablet'
+    $display_accel_id, $keyboard_accel_id = $keyboard_accel_id, $display_accel_id
+  end
+  puts "#$display_accel_id #$keyboard_accel_id"
+end
+
+detect_accels!
