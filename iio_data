@@ -48,10 +48,6 @@ def read_angle
   sign(v2,v1) * vector_angle(v2, v1)
 end
 
-def acceleration
-  magnitude read_3d_sensor(2, "anglvel")
-end
-
 def read_mode
   if read_angle < -0.5
     :tablet
@@ -60,4 +56,4 @@ def read_mode
   end
 end
 
-puts "#{read_mode} #{acceleration}"
+puts read_mode
