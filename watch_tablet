@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+scripts_dir = File.dirname File.realpath $0
+DETECT_TABLET_MODE_SCRIPT_PATH="#{scripts_dir}/detect_tablet_mode"
+
+def load_config!
+  @config = YAML.load(File.read("#{ENV['HOME']}/.config/watch_tablet.yml"))
+end
+
+def config
+  load_config! unless @config
+  @config 
+end
+
+def get_mode
+  `#{DETECT_TABLET_MODE_SCRIPT_PATH} #{config['display_accel_id']} #{config['keyboard_accel_id']}`.chomp
+end
+
+def activate_mode(mode)
+  if cmds = config['modes'][mode]
+    cmds.each{|cmd| system cmd }
+  end
+end
+
+def run_watcher
+  old_mode = nil
+  loop do
+    new_mode = get_mode
+    if old_mode != new_mode
+      activate_mode(new_mode)
+      old_mode = new_mode
+    end
+    sleep 0.5
+  end
+end
+
+run_watcher

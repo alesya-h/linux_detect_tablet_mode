@@ -1,0 +1,12 @@
+display_accel_id: 1
+keyboard_accel_id: 6
+modes:
+  normal:
+    - xinput enable 9   # touch
+    - xinput enable 12  # keyboard
+    - xinput enable 13  # touchpad
+    - xinput enable 14  # trackpoint
+  tablet:
+    - xinput disable 12  # keyboard
+    - xinput disable 13  # touchpad
+    - xinput disable 14  # trackpoint
