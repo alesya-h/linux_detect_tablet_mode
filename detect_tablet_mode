@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+trap('INT'){}
+
 def magnitude(v)
   Math.sqrt v.map{|x| x*x}.reduce(:+)
 end

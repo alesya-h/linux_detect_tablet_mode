@@ -33,6 +33,8 @@ def run_watcher
     end
     sleep 0.5
   end
+rescue Interrupt
+
 end
 
 run_watcher
