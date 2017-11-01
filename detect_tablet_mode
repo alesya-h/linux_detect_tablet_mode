@@ -53,7 +53,8 @@ def read_angle(display_accel_id, keyboard_accel_id)
 end
 
 def read_mode(display_accel_id, keyboard_accel_id)
-  if read_angle(display_accel_id, keyboard_accel_id) < -0.5
+  angle = read_angle(display_accel_id, keyboard_accel_id)
+  if angle.abs > 2.8 or angle < -0.5
     :tablet
   else
     :laptop
