@@ -31,7 +31,7 @@ def activate_mode(mode)
 end
 
 def in_motion?
-  `#{script('in_motion')}`.chomp.to_f > 0.8
+  ! system script 'is_not_moving'
 end
 
 def run_watcher

@@ -26,8 +26,6 @@ def read_3d_sensor(dev, property_name)
   %w(x y z).map{|axis| (read_float_in(dev, property_name, "#{axis}_raw") + offset) * scale}
 end
 
-if gyro = first_device_by_name('gyro_3d')
-  puts magnitude read_3d_sensor(gyro, 'anglvel')
-else
-  puts 0
-end
+exit 0 unless gyro = first_device_by_name('gyro_3d')
+m = magnitude read_3d_sensor(gyro, 'anglvel')
+exit (m < 0.8 ? 0 : 1)
