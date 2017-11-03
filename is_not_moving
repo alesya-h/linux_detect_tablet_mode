@@ -28,4 +28,4 @@ end
 
 exit 0 unless gyro = first_device_by_name('gyro_3d')
 m = magnitude read_3d_sensor(gyro, 'anglvel')
-exit (m < 0.8 ? 0 : 1)
+exit (m < 0.5 ? 0 : 1)
