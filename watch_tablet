@@ -16,11 +16,23 @@ def config
 end
 
 def detect_accels!
-  $accels = `#{script('detect_accelerometers')}`.chomp
+  $accels = `#{script('detect_accelerometers')}`.chomp.split(' ')
+  case
+  when $accels.size < 2
+    puts "This set of scripts requires 2 accelerometers to detect angle between
+a keyboard and a display. Your system has #{$accels.size}, sorry."
+    exit 1
+  when $accels.size > 2
+    puts "Your system has #{$accels.size} accelerometers. This set of scripts requires
+two (one in a keyboard and one in a display). For it to work you need to
+modify detect_accelerometers script to find correct accelerometers."
+    exit 1
+  end
+  return $accels
 end
 
 def get_mode
-  `#{script('detect_tablet_mode')} #$accels`.chomp
+  `#{script('detect_tablet_mode')} #{$accels[0]} #{$accels[1]}`.chomp
 end
 
 def activate_mode(mode)
