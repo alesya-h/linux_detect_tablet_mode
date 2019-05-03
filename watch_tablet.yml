@@ -1,3 +1,4 @@
+input_device: /dev/input/by-path/platform-thinkpad_acpi-event
 modes:
   laptop:
     # - xinput enable "Wacom Pen and multitouch sensor Finger"

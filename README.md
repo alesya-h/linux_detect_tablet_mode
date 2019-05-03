@@ -2,16 +2,16 @@
 
 ## What it does
 
-It uses two accelerometers to detect an angle between the screen and the keyboard,
-decides if that angle corresponds to laptop or tablet mode, and if mode have changed,
-it executes commands for switching into that mode, which are specified in
+It uses `libinput debug-events` to detect switches to normal and tablet mode,
+and executes commands for switching into that mode, which are specified in
 a config file. Generally you would put there commands to disable/enable a
 keyboard/touchpad/trackpoint, show/hide an on-screen keyboard, toggle some desktop
 environment panels, and the like.
 
 ## Supported devices
 
-Supposedly any 2-in-1s that have 2 accelerometers. Tested devices:
+All devices that have a tablet mode switch supported by libinput. As far as I understand
+this is a standard mechanism for this functionality nowadays. Tested devices:
 
 - ThinkPad X1 Yoga Gen2 (it was developed for it)
 
@@ -19,7 +19,7 @@ If it works on your device, please tell me and I'll add it to the list (or just 
 
 ## Installation
 
-1. Install ruby (most likely you already have it preinstalled)
+1. Install ruby and stdbuf (most likely you already have them preinstalled)
 2. Clone it somewhere, and optionally symlink `watch_tablet` into any directory in your $PATH
 3. Copy a config file into `~/.config/watch_tablet.yml`
 4. Adjust the config (see below)
@@ -27,6 +27,12 @@ If it works on your device, please tell me and I'll add it to the list (or just 
 6. Restart your desktop session and enjoy
 
 ## Configuration
+
+`input_device` is a path to the device that provides the tablet mode switch. To find it you
+may run `stdbuf -oL libinput debug-events|grep switch` and notice something like `event4` in
+the leftmost column. That would correspond to /dev/input/event4. Device numbers may be unstable
+across reboots, so you may consider doing `ls -lh /dev/input/by-path` and finding a symlink to
+that device. For X1 Yoga Gen2 it's `/dev/input/by-path/platform-thinkpad_acpi-event`.
 
 `modes.laptop`, `modes.tablet` - this contain commands that will be executed when mode changes.
 Most likely this will contain `xinput enable` and `xinput disable` commands to enable/disable
@@ -37,22 +43,16 @@ hide/show onscreen keyboard etc.)
 Example:
 
 ```yaml
+input_device: /dev/input/by-path/platform-thinkpad_acpi-event
 modes:
   laptop:
-    - xinput enable 9   # touch
-    - xinput enable 12  # keyboard
-    - xinput enable 13  # touchpad
-    - xinput enable 14  # trackpoint
+    # - xinput enable "Wacom Pen and multitouch sensor Finger"
+    - xinput enable "AT Translated Set 2 keyboard"
+    - xinput enable "SynPS/2 Synaptics TouchPad"
+    - xinput enable "TPPS/2 IBM TrackPoint"
   tablet:
-    - xinput disable 12  # keyboard
-    - xinput disable 13  # touchpad
-    - xinput disable 14  # trackpoint
+    # - xinput disable "Wacom Pen and multitouch sensor Finger"
+    - xinput disable "AT Translated Set 2 keyboard"
+    - xinput disable "SynPS/2 Synaptics TouchPad"
+    - xinput disable "TPPS/2 IBM TrackPoint"
 ```
-
-## Bugs
-
-Because IIO device ids are not stable across reboots, we can't put them in a config, meaning we have
-to detect them. Current autodetection logic is very simplistic and just grabs first 2 accelerometers,
-and arranges them assuming that the laptop is currently in a laptop mode. For proper autodetection
-we need PLD (Physical Location of Device) information to be available in the userspace, but at this
-point patches for that are not in a mainline kernel (https://patchwork.kernel.org/patch/4464341/).
