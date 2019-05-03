@@ -1,10 +1,11 @@
 modes:
   laptop:
-    - xinput enable 9   # touch
-    - xinput enable 12  # keyboard
-    - xinput enable 13  # touchpad
-    - xinput enable 14  # trackpoint
+    # - xinput enable "Wacom Pen and multitouch sensor Finger"
+    - xinput enable "AT Translated Set 2 keyboard"
+    - xinput enable "SynPS/2 Synaptics TouchPad"
+    - xinput enable "TPPS/2 IBM TrackPoint"
   tablet:
-    - xinput disable 12  # keyboard
-    - xinput disable 13  # touchpad
-    - xinput disable 14  # trackpoint
+    # - xinput disable "Wacom Pen and multitouch sensor Finger"
+    - xinput disable "AT Translated Set 2 keyboard"
+    - xinput disable "SynPS/2 Synaptics TouchPad"
+    - xinput disable "TPPS/2 IBM TrackPoint"
