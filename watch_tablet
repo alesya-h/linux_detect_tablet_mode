@@ -23,7 +23,7 @@ def activate_mode(mode)
 end
 
 def run_watcher
-  cmd = "stdbuf -oL -eL libinput debug-events #{config['input_device']}"
+  cmd = "stdbuf -oL -eL libinput debug-events --device #{config['input_device']}"
   io = IO.popen(cmd,"r")
   while s=io.gets
     if m=s.match(/switch tablet-mode state (\d+)/)
