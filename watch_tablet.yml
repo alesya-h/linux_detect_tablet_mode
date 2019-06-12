@@ -1,4 +1,6 @@
 input_device: /dev/input/by-path/platform-thinkpad_acpi-event
+# input_device: /dev/input/event6 # Dell XPS 9365
+
 modes:
   laptop:
     # - xinput enable "Wacom Pen and multitouch sensor Finger"
