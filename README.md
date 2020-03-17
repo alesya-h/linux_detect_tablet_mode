@@ -14,6 +14,7 @@ All devices that have a tablet mode switch supported by libinput. As far as I un
 this is a standard mechanism for this functionality nowadays. Tested devices:
 
 - ThinkPad X1 Yoga Gen2 (it was developed for it)
+- Thinkpad X1 Yoga Gen3
 
 If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).
 
