@@ -26,6 +26,11 @@ If it works on your device, please tell me and I'll add it to the list (or just 
 5. Add `watch_tablet &` to your `~/.xinitrc`
 6. Restart your desktop session and enjoy
 
+### Arch Linux
+
+If you have an Arch-based distribution, you can install it using [this AUR package](https://aur.archlinux.org/packages/detect-tablet-mode-git/)
+
+
 ## Configuration
 
 `input_device` is a path to the device that provides the tablet mode switch. To find it you
@@ -56,3 +61,4 @@ modes:
     - xinput disable "SynPS/2 Synaptics TouchPad"
     - xinput disable "TPPS/2 IBM TrackPoint"
 ```
+
