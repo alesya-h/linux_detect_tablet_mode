@@ -1,5 +1,15 @@
 # Tablet mode detection and setup scripts for linux
 
+## What this is
+
+It's an older version of tablet mode detection scripts. Unlike the main version, it uses
+a pair of accelerometers instead of mode switch events. Mode switch events are the right
+way to handle tablet mode on linux, but it might be that some laptops don't support it (yet?).
+This set of scripts is more complicated, less reliable, and requires the device to be in
+laptop mode when the script is started. On the other hand, due its low-level nature, it
+allows you to customize the angle between the screen and a keyboard that is treated as a
+tablet mode.
+
 ## What it does
 
 It uses two accelerometers to detect an angle between the screen and the keyboard,
@@ -13,7 +23,7 @@ environment panels, and the like.
 
 Supposedly any 2-in-1s that have 2 accelerometers. Tested devices:
 
-- ThinkPad X1 Yoga Gen2 (it was developed for it)
+- ThinkPad X1 Yoga Gen2 (it was developed for it, but it doesn't work anymore, because its accelerometers aren't exposed anymore)
 
 If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).
 
