@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+trap('INT'){}
+
+def magnitude(v)
+  Math.sqrt v.map{|x| x*x}.reduce(:+)
+end
+
+def read_in(dev, in_name)
+  File.read("#{dev}/in_#{in_name}")
+end
+
+def read_float_in(dev, property_name, in_name)
+  read_in(dev, "#{property_name}_#{in_name}").to_f
+end
+
+def first_device_by_name(name)
+  Dir["/sys/bus/iio/devices/iio:device*"].find do |x|
+    File.read(x+'/name').chomp == name
+  end
+end
+
+def read_3d_sensor(dev, property_name)
+  offset = read_float_in(dev, property_name, "offset")
+  scale  = read_float_in(dev, property_name, "scale")
+  %w(x y z).map{|axis| (read_float_in(dev, property_name, "#{axis}_raw") + offset) * scale}
+end
+
+exit 0 unless gyro = first_device_by_name('gyro_3d')
+m = magnitude read_3d_sensor(gyro, 'anglvel')
+exit (m < 0.5 ? 0 : 1)

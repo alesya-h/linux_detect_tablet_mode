@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+def script(name)
+  scripts_dir = File.dirname File.realpath $0
+  "#{scripts_dir}/#{name}"
+end
+
+def load_config!
+  @config = YAML.load(File.read("#{ENV['HOME']}/.config/watch_tablet.yml"))
+end
+
+def config
+  load_config! unless @config
+  @config
+end
+
+def detect_accels!
+  $accels = `#{script('detect_accelerometers')}`.chomp.split(' ')
+  case
+  when $accels.size < 2
+    puts "This set of scripts requires 2 accelerometers to detect angle between
+a keyboard and a display. Your system has #{$accels.size}, sorry."
+    exit 1
+  when $accels.size > 2
+    puts "Your system has #{$accels.size} accelerometers. This set of scripts requires
+two (one in a keyboard and one in a display). For it to work you need to
+modify detect_accelerometers script to find correct accelerometers."
+    exit 1
+  end
+  return $accels
+end
+
+def get_mode
+  `#{script('detect_tablet_mode')} #{$accels[0]} #{$accels[1]}`.chomp
+end
+
+def activate_mode(mode)
+  puts "Switching to #{mode} mode"
+  if cmds = config['modes'][mode]
+    cmds.each{|cmd| system cmd }
+  end
+end
+
+def in_motion?
+  ! system script 'is_not_moving'
+end
+
+def run_watcher
+  detect_accels!
+  old_mode = nil
+  loop do
+    new_mode = get_mode
+    if old_mode != new_mode
+      if in_motion?
+        puts "not changing mode until motion is over"
+      else
+        activate_mode(new_mode)
+        old_mode = new_mode
+      end
+    end
+    sleep 0.5
+  end
+rescue Interrupt
+end
+
+run_watcher
