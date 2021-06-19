@@ -18,7 +18,7 @@ end
 def activate_mode(mode)
   puts "Switching to #{mode} mode"
   if cmds = config['modes'][mode]
-    cmds.each{|cmd| system cmd }
+    cmds.each_char{|cmd| system cmd }
   end
 end
 
