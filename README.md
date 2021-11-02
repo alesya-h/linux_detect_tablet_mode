@@ -21,12 +21,14 @@ If it works on your device, please tell me and I'll add it to the list (or just 
 
 ## Installation
 
-1. Install ruby and stdbuf (most likely you already have them preinstalled)
-2. Clone it somewhere, and optionally symlink `watch_tablet` into any directory in your $PATH
-3. Copy a config file into `~/.config/watch_tablet.yml`
-4. Adjust the config (see below)
-5. Add `watch_tablet &` to your `~/.xinitrc`
-6. Restart your desktop session and enjoy
+1. Add your user to the `input` group (`sudo gpasswd --add username input`) and relogin to apply group membership.
+2. Install ruby and stdbuf (most likely you already have them preinstalled)
+3. Clone this repo somewhere, and optionally symlink `watch_tablet` into any directory in your $PATH
+4. Copy a config file into `~/.config/watch_tablet.yml`
+5. Adjust the config (see below)
+6. Test it by running `watch_tablet` in a terminal and flipping your laptop to tablet and back. You should see commands from the config being executed. Press Ctrl+C to terminate it.
+7. After you confirmed that everything works, add `watch_tablet &` to your `~/.xinitrc`
+8. Restart your desktop session and enjoy
 
 ### Arch Linux
 
