@@ -19,6 +19,9 @@ this is a standard mechanism for this functionality nowadays. Tested devices:
 - Samsung Galaxy Book Flex2 5G
 
 If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).
+To check if your device is supported, run `stdbuf -oL libinput debug-events|grep switch`, flip your laptop between
+normal and tablet mode, and see if it printed anything. If you don't see any switch events, your device will
+not work with these scripts.
 
 ## Installation
 
