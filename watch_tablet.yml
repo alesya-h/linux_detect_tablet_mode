@@ -10,9 +10,11 @@ modes:
     # - xinput enable "ELAN0B00:00 04F3:3136 Touchpad" # Samsung Galaxy Book Flex2 5G
     - xinput enable "SynPS/2 Synaptics TouchPad"
     - xinput enable "TPPS/2 IBM TrackPoint"
+    # - xinput enable "Elan Touchpad"
   tablet:
     # - xinput disable "Wacom Pen and multitouch sensor Finger"
     - xinput disable "AT Translated Set 2 keyboard"
     # - xinput disable "ELAN0B00:00 04F3:3136 Touchpad" # Samsung Galaxy Book Flex2 5G
     - xinput disable "SynPS/2 Synaptics TouchPad"
     - xinput disable "TPPS/2 IBM TrackPoint"
+    # - xinput disable "Elan Touchpad"
