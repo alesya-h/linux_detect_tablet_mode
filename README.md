@@ -17,6 +17,7 @@ this is a standard mechanism for this functionality nowadays. Tested devices:
 - Thinkpad X1 Yoga Gen3
 - Thinkpad X1 Yoga Gen4
 - Thinkpad Yoga 11e Gen6
+- Lenovo IdeaPad Flex 5i Gen 7
 - Samsung Galaxy Book Flex2 5G
 
 If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).

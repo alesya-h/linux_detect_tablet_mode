@@ -1,4 +1,5 @@
 input_device: /dev/input/by-path/platform-thinkpad_acpi-event
+# input_device: /dev/input/by-path/pci-0000:00:1f.0-platform-VPC2004:00-event # Lenovo IdeaPad Flex 5i Gen 7
 # input_device: /dev/input/by-path/pci-0000:00:1f.0-platform-INT33D6:00-event # Dell XPS 9365
 # input_device: /dev/input/by-path/platform-INTC1051:00-event # Samsung Galaxy Book Flex2 5G
 
