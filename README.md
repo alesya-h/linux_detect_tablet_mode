@@ -16,7 +16,9 @@ this is a standard mechanism for this functionality nowadays. Tested devices:
 - ThinkPad X1 Yoga Gen2 (it was developed for it)
 - Thinkpad X1 Yoga Gen3
 - Thinkpad X1 Yoga Gen4
+- Thinkpad X1 Yoga Gen6
 - Thinkpad Yoga 11e Gen6
+- Thinkpad X370 Yoga
 - Lenovo IdeaPad Flex 5i Gen 7
 - Samsung Galaxy Book Flex2 5G
 
