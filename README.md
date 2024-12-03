@@ -21,6 +21,7 @@ this is a standard mechanism for this functionality nowadays. Tested devices:
 - Thinkpad X370 Yoga
 - Lenovo IdeaPad Flex 5i Gen 7
 - Samsung Galaxy Book Flex2 5G
+- Dell XPS 13 9310 2-in-1
 
 If it works on your device, please tell me and I'll add it to the list (or just submit a pull request yourself).
 To check if your device is supported, run `stdbuf -oL libinput debug-events|grep switch`, flip your laptop between
