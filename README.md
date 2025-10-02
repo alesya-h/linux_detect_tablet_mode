@@ -20,6 +20,7 @@ this is a standard mechanism for this functionality nowadays. Tested devices:
 - Thinkpad Yoga 11e Gen6
 - Thinkpad X370 Yoga
 - Lenovo IdeaPad Flex 5i Gen 7
+- Lenovo IdeaPad 5 2-in-1 Gen 10 (AMD)
 - Samsung Galaxy Book Flex2 5G
 - Dell XPS 13 9310 2-in-1
 - ASUS ZenBook 15 Flip OLED UP6502ZD
